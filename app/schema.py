@@ -11,5 +11,7 @@ class Blogout(BaseModel):
     id: int
     title: str
     article_number: int
-
+    
+class TokenData(BaseModel):
+    id: int
 
