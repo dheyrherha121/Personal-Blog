@@ -7,8 +7,8 @@ class Setting(BaseSettings):
     database_password: str
     database_port: int
     secret_key: str
-    expire_minutes: int
     algorithm: str
+    expires_minutes: int
 
     model_config = SettingsConfigDict(env_file= '.env')
 
