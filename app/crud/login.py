@@ -18,7 +18,7 @@ def login(input_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: sessi
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid credentials')
     if not utility.verify(input_data.password, user.password):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid credentials')
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invali credentials')
     
     token = auth2.create_acces_token(data =  {'user_id' : user.id})
     return {'token generated':token, 'token_type': 'Bearer'}

@@ -6,7 +6,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 #to hash the input password
-def hashing(password):
+def hash(password: str):
     pwd_context.hash(password)
 
 def verify(plain_password, hashed_password):

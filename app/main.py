@@ -1,10 +1,12 @@
 from fastapi import FastAPI
-from .crud import articles
+from .crud import articles,login,users
 from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 app.include_router(articles.router)
+app.include_router(login.router)
+app.include_router(users.router)
 
 
 app.add_middleware(

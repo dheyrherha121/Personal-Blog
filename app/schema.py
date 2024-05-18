@@ -1,6 +1,19 @@
 from pydantic import BaseModel
 from pydantic import EmailStr
 
+class UserIn(BaseModel):
+    email: EmailStr
+    password: str
+
+    class config:
+       orm_mode= True
+
+class UserOut(BaseModel):
+    id: int
+    email: str
+
+    class config:
+       orm_mode= True
 class Blogin(BaseModel):
     title: str
     content: str
@@ -14,14 +27,3 @@ class Blogout(BaseModel):
 
 class TokenData(BaseModel):
     id: int
-
-class UserIn(BaseModel):
-    email: EmailStr
-    password: str
-
-class UserOut(BaseModel):
-    id: int
-    email: str
-
-    class config:
-       orm_mode= True
