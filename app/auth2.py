@@ -7,7 +7,8 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import session
 from . import database,model
-oauth2 = OAuth2PasswordBearer(tokenUrl='login')
+
+oauth2_schema = OAuth2PasswordBearer(tokenUrl='token')
 
 SECRET_KEY = setting.secret_key
 EXPIRE_MINUTES = setting.expires_minutes
@@ -28,7 +29,7 @@ def create_acces_token(data: dict):
 def verify_token(token:str, credential_exception):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        id: int = payload.get('user_id')
+        id: str = payload.get('user_id')
         if id is None:
             raise credential_exception
         token_data = TokenData(id = id)
@@ -39,7 +40,7 @@ def verify_token(token:str, credential_exception):
     return token_data
 
 
-def get_current_user(token: Annotated[str, Depends(oauth2)],db: session =  Depends(database.get_db)):
+def get_current_user(token: Annotated[str, Depends(oauth2_schema)],db: session =  Depends(database.get_db)):
     credential_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='coud not validate credentils', headers={'WWW.Authenticate': 'Bearer'})
     token = verify_token(token, credential_exception)
     user = db.query(model.User).filter(model.User.id == token.id).first()

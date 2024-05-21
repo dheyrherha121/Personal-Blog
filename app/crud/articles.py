@@ -10,13 +10,14 @@ router = APIRouter(
 
 
 @router.post('/', status_code=status.HTTP_200_OK, response_model=schema.Blogout)
-def new_blog(blog: schema.Blogin, db: session= Depends(get_db), current_user: int = Depends(auth2.get_current_user)):
+def new_blog(blog: schema.Blogin, db: session= Depends(get_db)):
+    #print(current_user.id)
 
     new_blog= model.Blog(**blog.dict())
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
-    return {blog}
+    return new_blog
 
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model= schema.Blogout)

@@ -14,12 +14,12 @@ class UserOut(BaseModel):
 
     class config:
        orm_mode= True
+
 class Blogin(BaseModel):
     title: str
     content: str
     Article_number: int
-
-
+    
 class Blogout(BaseModel):
     id: int
     title: str

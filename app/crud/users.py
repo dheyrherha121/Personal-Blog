@@ -8,18 +8,15 @@ router = APIRouter(
     tags=['users']
 )
 
-@router.post('/', status_code=status.HTTP_200_OK)
-def create_user(user:schema.UserIn, db:session = Depends(get_db)):
+@router.post('/', status_code=status.HTTP_200_OK, response_model=schema.UserOut)
+def create_user(user: schema.UserIn, db:session = Depends(get_db)):
     hashed_password = utility.hash(user.password)
     user.password = hashed_password
-
-    new_user = model.User(user.dict())
-    
+    new_user = model.User(**user.dict())
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-
-    return {'welcome!! You can start creating your blogs❤️🙈'}
+    return new_user
 
 
 @router.get('/{id}', status_code=status.HTTP_200_OK, response_model=schema.UserOut)
